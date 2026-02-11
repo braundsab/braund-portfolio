@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2026-02-10T16:11:36-08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Stephen Braund</title><subtitle>Communications strategist specializing in effective storytelling, travel marketing, brand strategy, and editorial work. Portfolio of integrated campaigns and photography.</subtitle><entry><title type="html">Welcome to My Portfolio</title><link href="http://localhost:4000/blog/2026/01/29/welcome/" rel="alternate" type="text/html" title="Welcome to My Portfolio" /><published>2026-01-29T00:00:00-08:00</published><updated>2026-01-29T00:00:00-08:00</updated><id>http://localhost:4000/blog/2026/01/29/welcome</id><content type="html" xml:base="http://localhost:4000/blog/2026/01/29/welcome/"><![CDATA[<p>Welcome to my portfolio! This is an example blog post to show you how posts work.</p>
+
+<h2 id="writing-in-markdown">Writing in Markdown</h2>
+
+<p>You can write your blog posts in markdown using IA Writer or any text editor. Simply save them with:</p>
+
+<ul>
+  <li>The filename format: <code class="language-plaintext highlighter-rouge">YYYY-MM-DD-title-of-post.md</code></li>
+  <li>Front matter at the top (the section between the <code class="language-plaintext highlighter-rouge">---</code> markers)</li>
+  <li>Your content below</li>
+</ul>
+
+<h2 id="front-matter">Front Matter</h2>
+
+<p>Every post needs front matter. Here’s what each field means:</p>
+
+<ul>
+  <li><strong>layout</strong>: Always use <code class="language-plaintext highlighter-rouge">post</code> for blog posts</li>
+  <li><strong>title</strong>: The title of your post</li>
+  <li><strong>date</strong>: Publication date in YYYY-MM-DD format</li>
+  <li><strong>category</strong>: Optional category (photography, strategy, writing, etc.)</li>
+  <li><strong>description</strong>: Optional meta description for SEO</li>
+</ul>
+
+<h2 id="adding-images">Adding Images</h2>
+
+<p>You can add images to your posts like this:</p>
+
+<div class="language-markdown highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">![</span><span class="nv">Alt text</span><span class="p">](</span><span class="sx">/assets/images/blog/your-image.jpg</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Just place your images in the <code class="language-plaintext highlighter-rouge">/assets/images/blog/</code> folder.</p>
+
+<h2 id="formatting-options">Formatting Options</h2>
+
+<p>You have all standard markdown formatting available:</p>
+
+<p><strong>Bold text</strong>, <em>italic text</em>, <a href="https://example.com">links</a>, and more.</p>
+
+<h3 id="lists">Lists</h3>
+
+<ul>
+  <li>Unordered lists</li>
+  <li>Like this</li>
+  <li>Are easy</li>
+</ul>
+
+<ol>
+  <li>Ordered lists</li>
+  <li>Work too</li>
+  <li>Simple!</li>
+</ol>
+
+<h3 id="quotes">Quotes</h3>
+
+<blockquote>
+  <p>You can add blockquotes for emphasis or to quote others.</p>
+</blockquote>
+
+<h3 id="code">Code</h3>
+
+<p>Inline <code class="language-plaintext highlighter-rouge">code</code> or code blocks:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">hello_world</span><span class="p">():</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Hello, world!</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="publishing-your-posts">Publishing Your Posts</h2>
+
+<ol>
+  <li>Write your post in IA Writer</li>
+  <li>Save it as a <code class="language-plaintext highlighter-rouge">.md</code> file with the date format: <code class="language-plaintext highlighter-rouge">2026-01-29-my-post-title.md</code></li>
+  <li>Move it to the <code class="language-plaintext highlighter-rouge">_posts</code> folder in your repository</li>
+  <li>Commit and push to GitHub</li>
+  <li>Your post is live!</li>
+</ol>
+
+<p>That’s it! Enjoy writing.</p>]]></content><author><name></name></author><category term="general" /><summary type="html"><![CDATA[An introduction to my portfolio and what you can expect from this blog.]]></summary></entry></feed>

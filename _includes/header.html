@@ -1,0 +1,31 @@
+<header class="site-header">
+  <div class="header-container">
+    <a href="{{ '/' | relative_url }}" class="site-logo" style="display: flex; flex-direction: column; text-decoration: none;">
+      <span style="font-size: 1.5rem; font-weight: 700; letter-spacing: -0.01em;">STEPHEN BRAUND</span>
+      <span style="font-size: 0.75rem; font-weight: 500; color: var(--colour-text-light); margin-top: 0.125rem;">Communications Strategist</span>
+    </a>
+    
+    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<nav class="main-nav">
+  <ul class="nav-menu">
+    <li><a href="{{ '/' | relative_url }}">Home</a></li>
+    <li><a href="{{ '/portfolio/' | relative_url }}">Portfolio</a></li>
+    <li><a href="{{ '/about/' | relative_url }}">About</a></li>
+    <li><a href="{{ '/blog/' | relative_url }}">Blog</a></li>
+    <li><a href="{{ '/contact/' | relative_url }}">Contact</a></li>
+  </ul>
+  
+  <div class="theme-toggle">
+    <button class="theme-toggle-btn" aria-label="Toggle dark mode"></button>
+    <span>Dark Mode</span>
+  </div>
+</nav>
+
+<div class="nav-overlay"></div>

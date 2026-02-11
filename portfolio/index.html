@@ -1,0 +1,59 @@
+---
+layout: default
+title: Portfolio
+portfolio: true
+description: A collection of work spanning strategy, photography, and editorial projects.
+---
+
+<section class="portfolio-section">
+  <div class="container">
+    <header class="text-center mb-lg">
+      <h1 class="mb-sm">Portfolio</h1>
+      <p style="color: var(--colour-text-light); max-width: 600px; margin: 0 auto;">
+        Explore projects spanning integrated campaigns, editorial work, and visual storytelling.
+      </p>
+    </header>
+    
+    <!-- Filter Buttons -->
+    <div class="portfolio-filters">
+      <button class="filter-btn active" data-filter="all">All Work</button>
+      <button class="filter-btn" data-filter="writing">Writing</button>
+      <button class="filter-btn" data-filter="strategy">Strategy</button>
+      <button class="filter-btn" data-filter="editorial">Editorial</button>
+      <button class="filter-btn" data-filter="photography">Photography</button>
+    </div>
+    
+    <!-- Portfolio Grid -->
+    <div class="portfolio-grid">
+      {% for item in site.data.portfolio %}
+      <div class="portfolio-item" 
+           data-tags="{{ item.tags | join: ',' }}"
+           data-title="{{ item.title }}"
+           data-description="{{ item.description }}"
+           data-gallery="/assets/images/{{ item.gallery | join: ',/assets/images/' }}"
+           data-year="{{ item.year }}"
+           data-client="{{ item.client }}">
+        
+        <div class="portfolio-image-wrapper">
+          <img src="{{ '/assets/images/' | append: item.image | relative_url }}" 
+               alt="{{ item.title }}"
+               class="portfolio-image"
+               loading="lazy">
+        </div>
+        
+        <div class="portfolio-overlay">
+          <h3 class="portfolio-title">{{ item.title }}</h3>
+          <p class="portfolio-description">{{ item.description }}</p>
+          <div class="portfolio-tags">
+            {% for tag in item.tags %}
+            <span class="portfolio-tag">{{ tag }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% include lightbox.html %}

@@ -1,0 +1,72 @@
+---
+layout: default
+title: Blog
+description: Thoughts on strategy, writing, photography, and creative work.
+---
+
+<section class="blog-section">
+  <div class="container">
+    <div class="blog-header">
+      <h1>Blog</h1>
+      <p>Thoughts on strategy, writing, photography, and creative work.</p>
+    </div>
+    
+    {% if site.posts.size > 0 %}
+    <div class="blog-grid">
+      {% for post in site.posts %}
+      <article class="blog-card">
+        {% if post.image %}
+        <img src="{{ '/assets/images/blog/' | append: post.image | relative_url }}" 
+             alt="{{ post.title }}"
+             class="blog-card-image"
+             loading="lazy">
+        {% endif %}
+        
+        <div class="blog-card-content">
+          <div class="blog-card-meta">
+            <time datetime="{{ post.date | date_to_xmlschema }}">
+              {{ post.date | date: "%B %-d, %Y" }}
+            </time>
+            {% if post.category %}
+            <span>{{ post.category | capitalize }}</span>
+            {% endif %}
+          </div>
+          
+          <h2 class="blog-card-title">
+            <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+          </h2>
+          
+          <p class="blog-card-excerpt">
+            {{ post.excerpt | strip_html | truncatewords: 30 }}
+          </p>
+          
+          <a href="{{ post.url | relative_url }}" class="blog-card-link">
+            Read More →
+          </a>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+    
+    <!-- Pagination (if you have many posts) -->
+    {% if paginator.total_pages > 1 %}
+    <div class="pagination">
+      {% if paginator.previous_page %}
+        <a href="{{ paginator.previous_page_path | relative_url }}">← Previous</a>
+      {% endif %}
+      
+      <span class="current">Page {{ paginator.page }} of {{ paginator.total_pages }}</span>
+      
+      {% if paginator.next_page %}
+        <a href="{{ paginator.next_page_path | relative_url }}">Next →</a>
+      {% endif %}
+    </div>
+    {% endif %}
+    
+    {% else %}
+    <div class="text-center py-xl">
+      <p style="color: var(--colour-text-light);">No blog posts yet. Check back soon!</p>
+    </div>
+    {% endif %}
+  </div>
+</section>

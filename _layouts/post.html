@@ -1,0 +1,41 @@
+---
+layout: default
+---
+
+<article class="blog-post">
+  <header class="post-header">
+    <div class="container container-narrow">
+      <h1 class="post-title">{{ page.title }}</h1>
+      <div class="post-meta">
+        <time datetime="{{ page.date | date_to_xmlschema }}">
+          {{ page.date | date: "%B %-d, %Y" }}
+        </time>
+        {% if page.category %}
+        <span class="post-category">{{ page.category }}</span>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  <div class="post-content">
+    {{ content }}
+  </div>
+
+  {% if page.previous.url or page.next.url %}
+  <nav class="post-nav container container-narrow">
+    {% if page.previous.url %}
+    <a href="{{ page.previous.url | relative_url }}" class="post-nav-link">
+      <div class="post-nav-label">← Previous</div>
+      <div class="post-nav-title">{{ page.previous.title }}</div>
+    </a>
+    {% endif %}
+    
+    {% if page.next.url %}
+    <a href="{{ page.next.url | relative_url }}" class="post-nav-link">
+      <div class="post-nav-label">Next →</div>
+      <div class="post-nav-title">{{ page.next.title }}</div>
+    </a>
+    {% endif %}
+  </nav>
+  {% endif %}
+</article>

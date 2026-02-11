@@ -1,0 +1,38 @@
+# Site settings
+title: Stephen Braund
+email: contact@braund.ca
+description: >-
+  Communications strategist specializing in effective storytelling, travel marketing, brand strategy, and editorial work. Portfolio of integrated campaigns and photography.
+baseurl: ""
+url: "https://braund.ca"
+
+# Build settings
+markdown: kramdown
+permalink: /blog/:year/:month/:day/:title/
+
+# Collections
+collections:
+  portfolio:
+    output: false
+
+# Exclude files
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - README.md
+  - .gitignore
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Social links
+linkedin_url: https://www.linkedin.com/in/stephen-b-van2323/
+
+# Formspree
+formspree_form_id: maqjjaaw
+
+# Analytics (add later if needed)
+# google_analytics: UA-XXXXXXXXX-X
