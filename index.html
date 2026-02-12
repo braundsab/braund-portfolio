@@ -4,20 +4,24 @@ title: Home
 carousel: true
 ---
 
-<!-- Hero Section with Name -->
-<section style="text-align: center; padding: var(--spacing-xl) var(--spacing-md) var(--spacing-md); background-color: var(--colour-surface);">
-  <h1 style="font-size: 3rem; font-weight: 700; margin-bottom: var(--spacing-sm); letter-spacing: -0.02em;">
-    STEPHEN BRAUND
-  </h1>
-  <p style="font-size: 1.25rem; color: var(--colour-text-light); font-weight: 500;">
-    Communications Strategist
-  </p>
+<!-- About Introduction (moved to top) -->
+<section class="py-xl" style="background-color: var(--colour-background);">
+  <div class="container container-narrow text-center">
+    <h2 class="mb-md">Hi, I'm Stephen</h2>
+    <p style="font-size: 1.125rem; line-height: 1.8; color: var(--colour-text); margin-bottom: var(--spacing-md);">
+      My background spans travel marketing, corporate branding, and B2B communications. I've written for companies selling adventure tours and destination management organizations attracting visitors. I've helped rebrand product lines, craft corporate culture books, and build organizational brands from the ground up.
+    </p>
+    <a href="{{ '/about/' | relative_url }}" 
+       style="display: inline-block; padding: 0.75rem 2rem; background-color: var(--colour-primary); color: white; border-radius: var(--radius-md); font-weight: 500; transition: all 0.3s ease; text-decoration: none;">
+      Learn More About Me →
+    </a>
+  </div>
 </section>
 
 <!-- Featured Work Carousel -->
 <section class="carousel" style="position: relative;">
   <!-- Featured Projects Header -->
-  <div style="position: absolute; top: var(--spacing-md); left: var(--spacing-md); z-index: 100; background-color: rgba(0, 0, 0, 0.7); backdrop-filter: blur(10px); padding: 0.5rem 1rem; border-radius: var(--radius-md);">
+  <div style="position: absolute; top: var(--spacing-md); left: var(--spacing-md); z-index: 100; background-color: var(--colour-primary); padding: 0.5rem 1rem; border-radius: var(--radius-md);">
     <h2 style="color: white; font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin: 0;">Featured Work</h2>
   </div>
   
@@ -63,20 +67,6 @@ carousel: true
   <button class="carousel-arrow carousel-arrow-prev" aria-label="Previous slide">‹</button>
   <button class="carousel-arrow carousel-arrow-next" aria-label="Next slide">›</button>
   <button class="carousel-pause" aria-label="Pause carousel">Pause</button>
-</section>
-
-<!-- About Introduction -->
-<section class="py-xl" style="background-color: var(--colour-background);">
-  <div class="container container-narrow text-center">
-    <h2 class="mb-md">About Stephen</h2>
-    <p style="font-size: 1.125rem; line-height: 1.8; color: var(--colour-text); margin-bottom: var(--spacing-md);">
-      My background spans travel marketing, corporate branding, and B2B communications. I've written for companies selling adventure tours and destination management organizations attracting visitors. I've helped rebrand product lines, craft corporate culture books, and build organizational brands from the ground up.
-    </p>
-    <a href="{{ '/about/' | relative_url }}" 
-       style="display: inline-block; padding: 0.75rem 2rem; background-color: var(--colour-primary); color: white; border-radius: var(--radius-md); font-weight: 500; transition: all 0.3s ease; text-decoration: none;">
-      Learn More About Stephen →
-    </a>
-  </div>
 </section>
 
 <!-- Portfolio Thumbnails -->
