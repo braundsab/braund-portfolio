@@ -134,30 +134,11 @@ class Lightbox {
     document.body.style.overflow = '';
   }
   
-  sanitizeImageSrc(rawSrc) {
-    if (typeof rawSrc !== 'string') {
-      return '';
-    }
-    const trimmed = rawSrc.trim();
-    if (!trimmed) {
-      return '';
-    }
-    try {
-      const url = new URL(trimmed, window.location.href);
-      if (url.protocol === 'http:' || url.protocol === 'https:') {
-        return url.href;
-      }
-    } catch (e) {
-      // Fall through to return empty string below if URL parsing fails
-    }
-    return '';
-  }
-  
   updateContent() {
       const imageSrc = this.currentGallery[this.currentIndex];
     
     // Update image with lazy loading
-    this.lightboxImage.src = this.sanitizeImageSrc(imageSrc);
+    this.lightboxImage.src = imageSrc;
     
     // Update info
     if (this.lightboxTitle) {
