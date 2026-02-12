@@ -8,8 +8,8 @@
     - "portfolio/tl_lethbridge-vis-guide_ale-trail.jpg"
   client: "Tourism Lethbridge"
   featured: true
-  
-  - title: "Alberta SouthWest Website"
+
+- title: "Alberta SouthWest Website"
   tags: [editorial, writing, strategy]
   description: "Alberta SouthWest's 15 community Regional Economic Development Alliance (REDA) needed a website overhaul to match their investor-focussed mandate. I led the content strategy and restructure, collaborating with a designer to transform an aging site into a clear, modern platform that improved readability for potential investors."
   image: "portfolio/alberta-southwest-why.webp"
@@ -22,8 +22,8 @@
     - "portfolio/alberta-southwest_homepage.webp"
   client: "Alberta SouthWest"
   featured: true
-  
-  - title: "Lethbridge Experience Travel Guide"
+
+- title: "Lethbridge Experience Travel Guide"
   tags: [editorial, writing]
   description: "I directed the creation of Lethbridge's flagship travel guide. To make it happen, I collaborated with local attractions and internal designers to produce the destination's core tourism resource. The guide served double duty as a physical document distributed across Western Canada's travel centres and the foundation for much of our website and other digital content."
   image: "portfolio/tl_lethbridge-vis-guide_cover.webp"
