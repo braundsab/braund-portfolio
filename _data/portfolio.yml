@@ -23,6 +23,19 @@
   client: "Alberta SouthWest"
   featured: true
   
+  - title: "Lethbridge Experience Travel Guide"
+  tags: [editorial, writing]
+  description: "I directed the creation of Lethbridge's flagship travel guide. To make it happen, I collaborated with local attractions and internal designers to produce the destination's core tourism resource. The guide served double duty as a physical document distributed across Western Canada's travel centres and the foundation for much of our website and other digital content."
+  image: "portfolio/tl_lethbridge-vis-guide_cover.webp"
+  hero_image: "portfolio/tl_lethbridge-vis-guide_hero.webp"
+  gallery:
+    - "portfolio/tl_lethbridge-vis-guide_cover.webp"
+    - "portfolio/tl_lethbridge-vis-guide_golf.webp"
+    - "portfolio/tl_lethbridge-vis-guide_ale-trail.jpg"
+    - "portfolio/tl_lethbridge-vis-guide_food.webp"
+  client: "Tourism Lethbridge"
+  featured: true
+
 - title: "The Culture Book"
   tags: [editorial, writing]
   description: "When the CEO of G Adventures wanted to bottle their famous and fearless corporate culture, I led the creation of their Culture Bible. This 144-page bound book translated their heart-on-sleeve values into a tangible keepsake. I shepherded the project from concept through writing, editing, and creative production, delivering a piece that matched the company's off-the-beaten-path vibe."
@@ -43,19 +56,6 @@
     - "portfolio/tl_annual-report-2021_values.jpg"
     - "portfolio/tl_annual-report_power-of-tourism-2022.jpg"
   client: "Tourism Lethbridge"
-
-- title: "Lethbridge Experience Travel Guide"
-  tags: [editorial, writing]
-  description: "I directed the creation of Lethbridge's flagship travel guide. To make it happen, I collaborated with local attractions and internal designers to produce the destination's core tourism resource. The guide served double duty as a physical document distributed across Western Canada's travel centres and the foundation for much of our website and other digital content."
-  image: "portfolio/tl_lethbridge-vis-guide_cover.webp"
-  hero_image: "portfolio/tl_lethbridge-vis-guide_hero.webp"
-  gallery:
-    - "portfolio/tl_lethbridge-vis-guide_cover.webp"
-    - "portfolio/tl_lethbridge-vis-guide_golf.webp"
-    - "portfolio/tl_lethbridge-vis-guide_ale-trail.jpg"
-    - "portfolio/tl_lethbridge-vis-guide_food.webp"
-  client: "Tourism Lethbridge"
-  featured: true
 
 - title: "Lethbridge - Your UNESCO Hub"
   tags: [writing, strategy]
