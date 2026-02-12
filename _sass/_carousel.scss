@@ -39,6 +39,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: top center; // Keep top of image visible
 }
 
 .carousel-content {
@@ -47,13 +48,13 @@
   left: 0;
   right: 0;
   padding: var(--spacing-lg);
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
   color: white;
   
   h2 {
     font-size: 2rem;
     margin-bottom: 0.5rem;
-    color: white;
+    color: var(--colour-primary); // Yellow project titles
   }
   
   p {
@@ -61,6 +62,7 @@
     margin-bottom: 1rem;
     opacity: 0.9;
     max-width: 600px;
+    color: white;
   }
 }
 
