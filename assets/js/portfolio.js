@@ -135,7 +135,7 @@ class Lightbox {
   }
   
   updateContent() {
-      const imageSrc = '/braund-portfolio' + this.currentGallery[this.currentIndex];
+      const imageSrc = this.currentGallery[this.currentIndex];
     
     // Update image with lazy loading
     this.lightboxImage.src = imageSrc;
