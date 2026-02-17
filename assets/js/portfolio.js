@@ -1,204 +1,151 @@
-// Portfolio filtering and lightbox
-
-// Portfolio Filter
-class PortfolioFilter {
+class PortfolioLightbox {
   constructor() {
-    this.filterButtons = document.querySelectorAll('.filter-btn');
-    this.portfolioItems = document.querySelectorAll('.portfolio-item');
+    this.lightbox = document.querySelector('.lightbox:not(.gallery-lightbox)');
+    if (!this.lightbox) return;
     
-    if (this.filterButtons.length > 0) {
-      this.init();
-    }
+    this.lightboxImage = this.lightbox.querySelector('.lightbox-image');
+    this.lightboxTitle = this.lightbox.querySelector('.lightbox-title');
+    this.lightboxDescription = this.lightbox.querySelector('.lightbox-description');
+    this.lightboxCounter = this.lightbox.querySelector('.lightbox-counter');
+    this.lightboxClose = this.lightbox.querySelector('.lightbox-close');
+    this.lightboxPrev = this.lightbox.querySelector('.lightbox-arrow-prev');
+    this.lightboxNext = this.lightbox.querySelector('.lightbox-arrow-next');
+    this.galleryButton = this.lightbox.querySelector('.lightbox-gallery-btn');
+    
+    this.currentGallery = [];
+    this.currentIndex = 0;
+    this.currentTitle = '';
+    this.currentDescription = '';
+    this.isPhotography = false;
+    
+    this.init();
   }
   
   init() {
-    this.filterButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        const filter = button.getAttribute('data-filter');
-        this.filterItems(filter);
-        this.setActiveButton(button);
+    // Portfolio item clicks
+    document.querySelectorAll('.portfolio-item').forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.openLightbox(item);
       });
+    });
+    
+    // Filter buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        this.filterPortfolio(btn.dataset.filter);
+        
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+    
+    // Lightbox controls
+    this.lightboxClose?.addEventListener('click', () => this.closeLightbox());
+    this.lightboxPrev?.addEventListener('click', () => this.prevImage());
+    this.lightboxNext?.addEventListener('click', () => this.nextImage());
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (!this.lightbox.classList.contains('active')) return;
+      
+      if (e.key === 'Escape') this.closeLightbox();
+      if (e.key === 'ArrowLeft') this.prevImage();
+      if (e.key === 'ArrowRight') this.nextImage();
+    });
+    
+    // Click outside to close
+    this.lightbox.addEventListener('click', (e) => {
+      if (e.target === this.lightbox) this.closeLightbox();
     });
   }
   
-  filterItems(filter) {
-    this.portfolioItems.forEach(item => {
-      const tags = item.getAttribute('data-tags').split(',');
+  filterPortfolio(filter) {
+    document.querySelectorAll('.portfolio-item').forEach(item => {
+      const tags = item.dataset.tags.split(',');
       
       if (filter === 'all' || tags.includes(filter)) {
         item.classList.remove('hidden');
-        // Restart animation
-        item.style.animation = 'none';
-        setTimeout(() => {
-          item.style.animation = '';
-        }, 10);
       } else {
         item.classList.add('hidden');
       }
     });
   }
   
-  setActiveButton(activeButton) {
-    this.filterButtons.forEach(button => {
-      button.classList.remove('active');
-    });
-    activeButton.classList.add('active');
-  }
-}
-
-// Lightbox
-class Lightbox {
-  constructor() {
-    this.lightbox = document.querySelector('.lightbox');
-    this.lightboxImage = document.querySelector('.lightbox-image');
-    this.lightboxTitle = document.querySelector('.lightbox-title');
-    this.lightboxDescription = document.querySelector('.lightbox-description');
-    this.lightboxCounter = document.querySelector('.lightbox-counter');
-    this.lightboxMeta = document.querySelector('.lightbox-meta');
-    this.closeBtn = document.querySelector('.lightbox-close');
-    this.prevBtn = document.querySelector('.lightbox-prev');
-    this.nextBtn = document.querySelector('.lightbox-next');
+  openLightbox(item) {
+    this.currentTitle = item.dataset.title;
+    this.currentDescription = item.dataset.description;
+    this.isPhotography = item.dataset.isPhotography === 'true';
     
-    this.currentGallery = [];
-    this.currentIndex = 0;
-    this.currentData = null;
-    
-    if (this.lightbox) {
-      this.init();
-    }
-  }
-  
-  init() {
-    // Close button
-    if (this.closeBtn) {
-      this.closeBtn.addEventListener('click', () => this.close());
-    }
-    
-    // Navigation buttons
-    if (this.prevBtn) {
-      this.prevBtn.addEventListener('click', () => this.previous());
-    }
-    
-    if (this.nextBtn) {
-      this.nextBtn.addEventListener('click', () => this.next());
-    }
-    
-    // Close on overlay click
-    this.lightbox.addEventListener('click', (e) => {
-      if (e.target === this.lightbox) {
-        this.close();
-      }
-    });
-    
-    // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
-      if (!this.lightbox.classList.contains('active')) return;
-      
-      if (e.key === 'Escape') this.close();
-      if (e.key === 'ArrowLeft') this.previous();
-      if (e.key === 'ArrowRight') this.next();
-    });
-    
-    // Attach click handlers to portfolio items
-    const portfolioItems = document.querySelectorAll('.portfolio-item');
-    portfolioItems.forEach(item => {
-      item.addEventListener('click', () => {
-        const data = this.getItemData(item);
-        this.open(data);
-      });
-    });
-  }
-  
-  getItemData(item) {
-    return {
-      title: item.getAttribute('data-title'),
-      description: item.getAttribute('data-description'),
-      gallery: item.getAttribute('data-gallery').split(','),
-      year: item.getAttribute('data-year'),
-      client: item.getAttribute('data-client')
-    };
-  }
-  
-  open(data) {
-    this.currentData = data;
-    this.currentGallery = data.gallery;
+    const galleryData = item.dataset.gallery;
+    this.currentGallery = galleryData ? galleryData.split(',') : [];
     this.currentIndex = 0;
     
-    this.updateContent();
+    this.updateLightbox();
     this.lightbox.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
   
-  close() {
+  closeLightbox() {
     this.lightbox.classList.remove('active');
     document.body.style.overflow = '';
   }
   
-  updateContent() {
-      const imageSrc = this.currentGallery[this.currentIndex];
+  updateLightbox() {
+    const imageSrc = this.currentGallery[this.currentIndex];
     
     // Update image with lazy loading
     this.lightboxImage.src = imageSrc;
     
     // Update info
     if (this.lightboxTitle) {
-      this.lightboxTitle.textContent = this.currentData.title;
+      this.lightboxTitle.textContent = this.currentTitle;
     }
     
     if (this.lightboxDescription) {
-      this.lightboxDescription.textContent = this.currentData.description;
+      this.lightboxDescription.textContent = this.currentDescription;
     }
     
     // Update counter
     if (this.lightboxCounter) {
-      this.lightboxCounter.textContent = `${this.currentIndex + 1} / ${this.currentGallery.length}`;
-    }
-    
-    // Update meta info
-    if (this.lightboxMeta) {
-      let metaHTML = '';
-      if (this.currentData.year) {
-        metaHTML += `<span>${this.currentData.year}</span>`;
+      if (this.isPhotography) {
+        this.lightboxCounter.textContent = '';
+      } else {
+        this.lightboxCounter.textContent = `${this.currentIndex + 1} / ${this.currentGallery.length}`;
       }
-      if (this.currentData.client && this.currentData.client !== 'null') {
-        metaHTML += `<span>${this.currentData.client}</span>`;
-      }
-      this.lightboxMeta.innerHTML = metaHTML;
     }
     
-    // Update navigation buttons
-    this.updateNavButtons();
-  }
-  
-  updateNavButtons() {
-    if (this.prevBtn) {
-      this.prevBtn.disabled = this.currentIndex === 0;
-      this.prevBtn.classList.toggle('disabled', this.currentIndex === 0);
+    // Show/hide gallery button for photography projects
+    if (this.galleryButton) {
+      this.galleryButton.style.display = this.isPhotography ? 'inline-block' : 'none';
     }
     
-    if (this.nextBtn) {
-      this.nextBtn.disabled = this.currentIndex === this.currentGallery.length - 1;
-      this.nextBtn.classList.toggle('disabled', this.currentIndex === this.currentGallery.length - 1);
+    // Show/hide arrows for single-image photography projects
+    if (this.isPhotography || this.currentGallery.length <= 1) {
+      this.lightboxPrev.style.display = 'none';
+      this.lightboxNext.style.display = 'none';
+    } else {
+      this.lightboxPrev.style.display = 'flex';
+      this.lightboxNext.style.display = 'flex';
     }
   }
   
-  next() {
-    if (this.currentIndex < this.currentGallery.length - 1) {
-      this.currentIndex++;
-      this.updateContent();
-    }
+  nextImage() {
+    if (this.isPhotography || this.currentGallery.length <= 1) return;
+    
+    this.currentIndex = (this.currentIndex + 1) % this.currentGallery.length;
+    this.updateLightbox();
   }
   
-  previous() {
-    if (this.currentIndex > 0) {
-      this.currentIndex--;
-      this.updateContent();
-    }
+  prevImage() {
+    if (this.isPhotography || this.currentGallery.length <= 1) return;
+    
+    this.currentIndex = (this.currentIndex - 1 + this.currentGallery.length) % this.currentGallery.length;
+    this.updateLightbox();
   }
 }
 
-// Initialize on DOM ready
+// Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
-  new PortfolioFilter();
-  new Lightbox();
+  new PortfolioLightbox();
 });
