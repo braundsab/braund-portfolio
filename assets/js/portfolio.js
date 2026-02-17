@@ -26,6 +26,14 @@ class PortfolioLightbox {
     document.querySelectorAll('.portfolio-item').forEach(item => {
       item.addEventListener('click', (e) => {
         e.preventDefault();
+        
+        // Check if this is "More Photography - Gallery" (direct link)
+        const directLink = item.dataset.directGalleryLink === 'true';
+        if (directLink) {
+          window.location.href = '/gallery/';
+          return;
+        }
+        
         this.openLightbox(item);
       });
     });
@@ -76,12 +84,13 @@ class PortfolioLightbox {
     this.currentTitle = item.dataset.title;
     this.currentDescription = item.dataset.description;
     this.isPhotography = item.dataset.isPhotography === 'true';
+    const hasGalleryLink = item.dataset.galleryLink === 'true';
     
     const galleryData = item.dataset.gallery;
     this.currentGallery = galleryData ? galleryData.split(',') : [];
     this.currentIndex = 0;
     
-    this.updateLightbox();
+    this.updateLightbox(hasGalleryLink);
     this.lightbox.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
@@ -91,7 +100,7 @@ class PortfolioLightbox {
     document.body.style.overflow = '';
   }
   
-  updateLightbox() {
+  updateLightbox(hasGalleryLink = false) {
     const imageSrc = this.currentGallery[this.currentIndex];
     
     // Update image with lazy loading
@@ -108,16 +117,16 @@ class PortfolioLightbox {
     
     // Update counter
     if (this.lightboxCounter) {
-      if (this.isPhotography) {
+      if (this.isPhotography || this.currentGallery.length <= 1) {
         this.lightboxCounter.textContent = '';
       } else {
         this.lightboxCounter.textContent = `${this.currentIndex + 1} / ${this.currentGallery.length}`;
       }
     }
     
-    // Show/hide gallery button for photography projects
+    // Show/hide gallery button
     if (this.galleryButton) {
-      this.galleryButton.style.display = this.isPhotography ? 'inline-block' : 'none';
+      this.galleryButton.style.display = (this.isPhotography && hasGalleryLink) ? 'inline-block' : 'none';
     }
     
     // Show/hide arrows for single-image photography projects

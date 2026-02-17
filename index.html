@@ -46,6 +46,12 @@ title: Home
            {% if item.tags contains 'photography' %}
            data-gallery="/assets/images/{{ item.image }}"
            data-is-photography="true"
+           {% if item.gallery_link %}
+           data-gallery-link="true"
+           {% endif %}
+           {% if item.direct_gallery_link %}
+           data-direct-gallery-link="true"
+           {% endif %}
            {% else %}
            data-gallery="/assets/images/{{ item.gallery | join: ',/assets/images/' }}"
            {% endif %}

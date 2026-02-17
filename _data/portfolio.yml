@@ -116,9 +116,7 @@
   image: "portfolio/tl_performance_whoop-up-days-1.webp"
   gallery:
     - "portfolio/tl_performance_whoop-up-days-1.webp"
-    - "portfolio/tl_performance_whoop-up-days-2.webp"
-    - "portfolio/tl_performance_whoop-up-days-3.webp"
-    - "portfolio/tl_performance_whoop-up-days-4.webp"
+  gallery_link: true  # Add this
   client: "Tourism Lethbridge"
 
 - title: "Photography - Rodeo"
@@ -127,18 +125,14 @@
   image: "portfolio/tl_sport_rodeo-whoop-up-days-1.webp"
   gallery:
     - "portfolio/tl_sport_rodeo-whoop-up-days-1.webp"
-    - "portfolio/tl_sport_rodeo-whoop-up-days-2.webp"
-    - "portfolio/tl_sport_rodeo-whoop-up-days-3.webp"
+  gallery_link: true  # Add this
   client: "Tourism Lethbridge"
 
-- title: "Photography - Travel"
+- title: "More Photography - Gallery"  # Changed title
   tags: [photography]
-  description: "As a travel writer, I use photography to amplify my stories. Macro shots of rare flora and fauna convey the exotic, architectural images establish a sense of place, and candid street photography brings distant cultures to life for viewers thousands of kilometres away."
+  description: "Explore my full photography collection including performance, sport, and travel work from around the world."  # New description
   image: "portfolio/photo_travel_taj-mahal-bw1.webp"
   gallery:
     - "portfolio/photo_travel_taj-mahal-bw1.webp"
-    - "portfolio/photo_travel_mexico-stamps.webp"
-    - "portfolio/photo_travel_merida_folk-dancers2.webp"
-    - "portfolio/photo_travel_beijing-0782.webp"
-    - "portfolio/photo_travel_angkor-wat_3089.webp"
+  direct_gallery_link: true  # Add this (different from others)
   client: "Personal Work"
