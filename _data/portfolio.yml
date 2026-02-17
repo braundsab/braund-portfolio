@@ -111,6 +111,7 @@
   client: "Epicure"
 
 - title: "Photography - Performance"
+  gallery_link: true
   tags: [photography]
   description: "I captured the raw energy of live performance for Tourism Lethbridge - from Sam Roberts Band's concert intensity to local theatre groups performing on stage. Drawing on my camera operator training, I delivered dynamic images that showcased the destination's entertainment offerings."
   image: "portfolio/tl_performance_whoop-up-days-1.webp"
