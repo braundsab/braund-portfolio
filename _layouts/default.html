@@ -44,13 +44,14 @@
   {% include footer.html %}
   
   <!-- Scripts -->
-  <script src="{{ '/assets/js/main.js' | relative_url }}" defer></script>
-  {% if page.carousel %}
-  <script src="{{ '/assets/js/carousel.js' | relative_url }}" defer></script>
-  {% endif %}
-  {% if page.portfolio %}
-  <script src="{{ '/assets/js/portfolio.js' | relative_url }}" defer></script>
-  {% endif %}
+    <script src="{{ '/assets/js/main.js' | relative_url }}" defer></script>
+    {% if page.carousel %}
+    <script src="{{ '/assets/js/carousel.js' | relative_url }}" defer></script>
+    {% endif %}
+    <script src="{{ '/assets/js/portfolio.js' | relative_url }}" defer></script>
+    {% if page.gallery %}
+    <script src="{{ '/assets/js/gallery.js' | relative_url }}" defer></script>
+    {% endif %}
   
   <!-- Analytics (uncomment when ready) -->
   <!-- {% if site.google_analytics %}
