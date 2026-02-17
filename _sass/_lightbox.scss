@@ -18,10 +18,11 @@
 .lightbox-content {
   position: relative;
   max-width: 90%;
-  max-height: 90%;
+  max-height: 90vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-y: auto;
 }
 
 .lightbox-image-wrapper {
