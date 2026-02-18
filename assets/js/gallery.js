@@ -13,6 +13,7 @@ class GalleryLightbox {
     this.galleryItems = Array.from(document.querySelectorAll('.gallery-item'));
     this.currentIndex = 0;
     this.isZoomed = false;
+    this.hideControlsTimeout = null;
     
     this.init();
   }
@@ -44,6 +45,13 @@ class GalleryLightbox {
       this.toggleZoom();
     });
     
+    // Mouse movement to show controls when zoomed
+    this.lightbox?.addEventListener('mousemove', () => {
+      if (this.isZoomed) {
+        this.showControls();
+      }
+    });
+    
     // Keyboard navigation
     document.addEventListener('keydown', (e) => {
       if (!this.lightbox.classList.contains('active')) return;
@@ -60,7 +68,7 @@ class GalleryLightbox {
       if (e.key === 'z' || e.key === 'Z') this.toggleZoom();
     });
     
-    // Click background to close (but not when zoomed)
+    // Click background to close
     this.lightbox.addEventListener('click', (e) => {
       if (e.target === this.lightbox && !this.isZoomed) {
         this.closeLightbox();
@@ -74,7 +82,6 @@ class GalleryLightbox {
     this.lightbox.classList.add('active');
     document.body.style.overflow = 'hidden';
     
-    // Accessibility
     this.lightboxClose?.focus();
   }
   
@@ -84,28 +91,48 @@ class GalleryLightbox {
     document.body.style.overflow = '';
     this.isZoomed = false;
     this.lightboxImage?.classList.remove('zoomed');
+    
+    if (this.hideControlsTimeout) {
+      clearTimeout(this.hideControlsTimeout);
+    }
   }
   
   toggleZoom() {
     this.isZoomed = !this.isZoomed;
     
     if (this.isZoomed) {
-      // Enter fullscreen zoom mode
       this.lightbox.classList.add('gallery-fullscreen-zoom');
       this.lightboxImage.classList.add('zoomed');
       this.lightboxImage.style.cursor = 'zoom-out';
       
-      // Hide controls
-      if (this.lightboxControls) this.lightboxControls.style.display = 'none';
+      // Show controls initially, then auto-hide
+      this.showControls();
     } else {
-      // Exit fullscreen zoom mode
       this.lightbox.classList.remove('gallery-fullscreen-zoom');
       this.lightboxImage.classList.remove('zoomed');
       this.lightboxImage.style.cursor = 'zoom-in';
       
-      // Restore controls
-      if (this.lightboxControls) this.lightboxControls.style.display = 'flex';
+      // Restore controls visibility
+      this.lightbox.classList.remove('hide-controls');
+      if (this.hideControlsTimeout) {
+        clearTimeout(this.hideControlsTimeout);
+      }
     }
+  }
+  
+  showControls() {
+    this.lightbox.classList.remove('hide-controls');
+    
+    // Auto-hide after 2 seconds of no movement
+    if (this.hideControlsTimeout) {
+      clearTimeout(this.hideControlsTimeout);
+    }
+    
+    this.hideControlsTimeout = setTimeout(() => {
+      if (this.isZoomed) {
+        this.lightbox.classList.add('hide-controls');
+      }
+    }, 2000);
   }
   
   updateLightbox() {
@@ -117,9 +144,8 @@ class GalleryLightbox {
     this.lightboxImage.classList.remove('zoomed');
     this.isZoomed = false;
     
-    // Ensure UI is visible when changing images
     this.lightbox.classList.remove('gallery-fullscreen-zoom');
-    if (this.lightboxControls) this.lightboxControls.style.display = 'flex';
+    this.lightbox.classList.remove('hide-controls');
     
     if (this.lightboxCounter) {
       this.lightboxCounter.textContent = `${this.currentIndex + 1} / ${this.galleryItems.length}`;
@@ -137,7 +163,6 @@ class GalleryLightbox {
   }
 }
 
-// Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
   new GalleryLightbox();
 });

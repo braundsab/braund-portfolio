@@ -20,6 +20,7 @@ class PortfolioLightbox {
     this.currentDescription = '';
     this.isPhotography = false;
     this.isZoomed = false;
+    this.hideControlsTimeout = null;
     
     this.init();
   }
@@ -30,7 +31,6 @@ class PortfolioLightbox {
       item.addEventListener('click', (e) => {
         e.preventDefault();
         
-        // Check if this is "More Photography - Gallery" (direct link)
         const directLink = item.dataset.directGalleryLink === 'true';
         if (directLink) {
           window.location.href = '/gallery/';
@@ -69,6 +69,13 @@ class PortfolioLightbox {
       this.toggleZoom();
     });
     
+    // Mouse movement to show controls when zoomed
+    this.lightbox?.addEventListener('mousemove', () => {
+      if (this.isZoomed) {
+        this.showControls();
+      }
+    });
+    
     // Keyboard navigation
     document.addEventListener('keydown', (e) => {
       if (!this.lightbox.classList.contains('active')) return;
@@ -85,7 +92,7 @@ class PortfolioLightbox {
       if (e.key === 'z' || e.key === 'Z') this.toggleZoom();
     });
     
-    // Click background to close (but not when zoomed)
+    // Click background to close
     this.lightbox.addEventListener('click', (e) => {
       if (e.target === this.lightbox && !this.isZoomed) {
         this.closeLightbox();
@@ -120,11 +127,8 @@ class PortfolioLightbox {
     this.lightbox.classList.add('active');
     document.body.style.overflow = 'hidden';
     
-    // Accessibility: Move focus to close button
     this.lightboxClose?.focus();
-    
-    // Announce to screen readers
-    this.announceToScreenReader(`Opened ${this.currentTitle}. Press Escape to close, Z to zoom, arrow keys to navigate.`);
+    this.announceToScreenReader(`Opened ${this.currentTitle}. Press Z to zoom, arrow keys to navigate, Escape to close.`);
   }
   
   closeLightbox() {
@@ -133,51 +137,65 @@ class PortfolioLightbox {
     document.body.style.overflow = '';
     this.isZoomed = false;
     this.lightboxImage?.classList.remove('zoomed');
+    
+    if (this.hideControlsTimeout) {
+      clearTimeout(this.hideControlsTimeout);
+    }
   }
   
   toggleZoom() {
     this.isZoomed = !this.isZoomed;
     
     if (this.isZoomed) {
-      // Enter fullscreen zoom mode
       this.lightbox.classList.add('fullscreen-zoom');
       this.lightboxImage.classList.add('zoomed');
       this.lightboxImage.style.cursor = 'zoom-out';
       
-      // Hide all UI except close button
-      if (this.lightboxControls) this.lightboxControls.style.display = 'none';
-      if (this.lightboxInfo) this.lightboxInfo.style.display = 'none';
+      // Show controls initially, then auto-hide
+      this.showControls();
       
-      this.announceToScreenReader('Image zoomed to full size. Scroll to view entire image. Click or press Z to zoom out.');
+      this.announceToScreenReader('Image zoomed to full size. Move mouse to show controls. Scroll to view entire image.');
     } else {
-      // Exit fullscreen zoom mode
       this.lightbox.classList.remove('fullscreen-zoom');
       this.lightboxImage.classList.remove('zoomed');
       this.lightboxImage.style.cursor = 'zoom-in';
       
-      // Restore UI
-      if (this.lightboxControls) this.lightboxControls.style.display = 'flex';
-      if (this.lightboxInfo) this.lightboxInfo.style.display = 'block';
+      // Restore all UI visibility
+      this.lightbox.classList.remove('hide-controls');
+      if (this.hideControlsTimeout) {
+        clearTimeout(this.hideControlsTimeout);
+      }
       
       this.announceToScreenReader('Image zoomed to fit screen.');
     }
   }
   
+  showControls() {
+    this.lightbox.classList.remove('hide-controls');
+    
+    // Auto-hide after 2 seconds of no movement
+    if (this.hideControlsTimeout) {
+      clearTimeout(this.hideControlsTimeout);
+    }
+    
+    this.hideControlsTimeout = setTimeout(() => {
+      if (this.isZoomed) {
+        this.lightbox.classList.add('hide-controls');
+      }
+    }, 2000);
+  }
+  
   updateLightbox(hasGalleryLink = false) {
     const imageSrc = this.currentGallery[this.currentIndex];
     
-    // Update image
     this.lightboxImage.src = imageSrc;
     this.lightboxImage.style.cursor = 'zoom-in';
     this.lightboxImage.classList.remove('zoomed');
     this.isZoomed = false;
     
-    // Ensure UI is visible when changing images
     this.lightbox.classList.remove('fullscreen-zoom');
-    if (this.lightboxControls) this.lightboxControls.style.display = 'flex';
-    if (this.lightboxInfo) this.lightboxInfo.style.display = 'block';
+    this.lightbox.classList.remove('hide-controls');
     
-    // Update info
     if (this.lightboxTitle) {
       this.lightboxTitle.textContent = this.currentTitle;
     }
@@ -186,7 +204,6 @@ class PortfolioLightbox {
       this.lightboxDescription.textContent = this.currentDescription;
     }
     
-    // Update counter
     if (this.lightboxCounter) {
       if (this.isPhotography || this.currentGallery.length <= 1) {
         this.lightboxCounter.textContent = '';
@@ -197,12 +214,10 @@ class PortfolioLightbox {
       }
     }
     
-    // Show/hide gallery button
     if (this.galleryButton) {
       this.galleryButton.style.display = (this.isPhotography && hasGalleryLink) ? 'inline-block' : 'none';
     }
     
-    // Show/hide arrows
     if (this.isPhotography || this.currentGallery.length <= 1) {
       this.lightboxPrev.style.display = 'none';
       this.lightboxNext.style.display = 'none';
@@ -240,7 +255,6 @@ class PortfolioLightbox {
   }
 }
 
-// Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
   new PortfolioLightbox();
 });
