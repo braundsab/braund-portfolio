@@ -3,8 +3,7 @@ class GalleryLightbox {
     this.lightbox = document.querySelector('.gallery-lightbox');
     if (!this.lightbox) return;
     
-    this.lightboxImage = this.lightbox.querySelector('.lightbox-image');
-    this.lightboxTitle = this.lightbox.querySelector('.lightbox-title');
+    this.lightboxImage = this.lightbox.querySelector('.gallery-lightbox-image');
     this.lightboxCounter = this.lightbox.querySelector('.lightbox-counter');
     this.lightboxClose = this.lightbox.querySelector('.lightbox-close');
     this.lightboxPrev = this.lightbox.querySelector('.lightbox-arrow-prev');
@@ -59,13 +58,8 @@ class GalleryLightbox {
   updateLightbox() {
     const currentItem = this.galleryItems[this.currentIndex];
     const imageSrc = currentItem.dataset.src;
-    const title = currentItem.dataset.title || '';
     
     this.lightboxImage.src = imageSrc;
-    
-    if (this.lightboxTitle) {
-      this.lightboxTitle.textContent = title;
-    }
     
     if (this.lightboxCounter) {
       this.lightboxCounter.textContent = `${this.currentIndex + 1} / ${this.galleryItems.length}`;
