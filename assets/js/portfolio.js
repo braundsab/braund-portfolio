@@ -10,6 +10,8 @@ class PortfolioLightbox {
     this.lightboxClose = this.lightbox.querySelector('.lightbox-close');
     this.lightboxPrev = this.lightbox.querySelector('.lightbox-arrow-prev');
     this.lightboxNext = this.lightbox.querySelector('.lightbox-arrow-next');
+    this.lightboxControls = this.lightbox.querySelector('.lightbox-controls');
+    this.lightboxInfo = this.lightbox.querySelector('.lightbox-info');
     this.galleryButton = this.lightbox.querySelector('.lightbox-gallery-btn');
     
     this.currentGallery = [];
@@ -50,26 +52,44 @@ class PortfolioLightbox {
     });
     
     // Lightbox controls
-    this.lightboxClose?.addEventListener('click', () => this.closeLightbox());
+    this.lightboxClose?.addEventListener('click', () => {
+      if (this.isZoomed) {
+        this.toggleZoom();
+      } else {
+        this.closeLightbox();
+      }
+    });
+    
     this.lightboxPrev?.addEventListener('click', () => this.prevImage());
     this.lightboxNext?.addEventListener('click', () => this.nextImage());
     
     // Image click to zoom
-    this.lightboxImage?.addEventListener('click', () => this.toggleZoom());
+    this.lightboxImage?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.toggleZoom();
+    });
     
     // Keyboard navigation
     document.addEventListener('keydown', (e) => {
       if (!this.lightbox.classList.contains('active')) return;
       
-      if (e.key === 'Escape') this.closeLightbox();
+      if (e.key === 'Escape') {
+        if (this.isZoomed) {
+          this.toggleZoom();
+        } else {
+          this.closeLightbox();
+        }
+      }
       if (e.key === 'ArrowLeft' && !this.isZoomed) this.prevImage();
       if (e.key === 'ArrowRight' && !this.isZoomed) this.nextImage();
       if (e.key === 'z' || e.key === 'Z') this.toggleZoom();
     });
     
-    // Click outside to close
+    // Click background to close (but not when zoomed)
     this.lightbox.addEventListener('click', (e) => {
-      if (e.target === this.lightbox) this.closeLightbox();
+      if (e.target === this.lightbox && !this.isZoomed) {
+        this.closeLightbox();
+      }
     });
   }
   
@@ -100,7 +120,7 @@ class PortfolioLightbox {
     this.lightbox.classList.add('active');
     document.body.style.overflow = 'hidden';
     
-    // Accessibility: Move focus to lightbox
+    // Accessibility: Move focus to close button
     this.lightboxClose?.focus();
     
     // Announce to screen readers
@@ -109,6 +129,7 @@ class PortfolioLightbox {
   
   closeLightbox() {
     this.lightbox.classList.remove('active');
+    this.lightbox.classList.remove('fullscreen-zoom');
     document.body.style.overflow = '';
     this.isZoomed = false;
     this.lightboxImage?.classList.remove('zoomed');
@@ -118,12 +139,26 @@ class PortfolioLightbox {
     this.isZoomed = !this.isZoomed;
     
     if (this.isZoomed) {
+      // Enter fullscreen zoom mode
+      this.lightbox.classList.add('fullscreen-zoom');
       this.lightboxImage.classList.add('zoomed');
       this.lightboxImage.style.cursor = 'zoom-out';
-      this.announceToScreenReader('Image zoomed to actual size. Click again to zoom out.');
+      
+      // Hide all UI except close button
+      if (this.lightboxControls) this.lightboxControls.style.display = 'none';
+      if (this.lightboxInfo) this.lightboxInfo.style.display = 'none';
+      
+      this.announceToScreenReader('Image zoomed to full size. Scroll to view entire image. Click or press Z to zoom out.');
     } else {
+      // Exit fullscreen zoom mode
+      this.lightbox.classList.remove('fullscreen-zoom');
       this.lightboxImage.classList.remove('zoomed');
       this.lightboxImage.style.cursor = 'zoom-in';
+      
+      // Restore UI
+      if (this.lightboxControls) this.lightboxControls.style.display = 'flex';
+      if (this.lightboxInfo) this.lightboxInfo.style.display = 'block';
+      
       this.announceToScreenReader('Image zoomed to fit screen.');
     }
   }
@@ -136,6 +171,11 @@ class PortfolioLightbox {
     this.lightboxImage.style.cursor = 'zoom-in';
     this.lightboxImage.classList.remove('zoomed');
     this.isZoomed = false;
+    
+    // Ensure UI is visible when changing images
+    this.lightbox.classList.remove('fullscreen-zoom');
+    if (this.lightboxControls) this.lightboxControls.style.display = 'flex';
+    if (this.lightboxInfo) this.lightboxInfo.style.display = 'block';
     
     // Update info
     if (this.lightboxTitle) {
