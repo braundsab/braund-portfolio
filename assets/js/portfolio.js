@@ -17,6 +17,7 @@ class PortfolioLightbox {
     this.currentTitle = '';
     this.currentDescription = '';
     this.isPhotography = false;
+    this.isZoomed = false;
     
     this.init();
   }
@@ -53,13 +54,17 @@ class PortfolioLightbox {
     this.lightboxPrev?.addEventListener('click', () => this.prevImage());
     this.lightboxNext?.addEventListener('click', () => this.nextImage());
     
+    // Image click to zoom
+    this.lightboxImage?.addEventListener('click', () => this.toggleZoom());
+    
     // Keyboard navigation
     document.addEventListener('keydown', (e) => {
       if (!this.lightbox.classList.contains('active')) return;
       
       if (e.key === 'Escape') this.closeLightbox();
-      if (e.key === 'ArrowLeft') this.prevImage();
-      if (e.key === 'ArrowRight') this.nextImage();
+      if (e.key === 'ArrowLeft' && !this.isZoomed) this.prevImage();
+      if (e.key === 'ArrowRight' && !this.isZoomed) this.nextImage();
+      if (e.key === 'z' || e.key === 'Z') this.toggleZoom();
     });
     
     // Click outside to close
@@ -89,22 +94,48 @@ class PortfolioLightbox {
     const galleryData = item.dataset.gallery;
     this.currentGallery = galleryData ? galleryData.split(',') : [];
     this.currentIndex = 0;
+    this.isZoomed = false;
     
     this.updateLightbox(hasGalleryLink);
     this.lightbox.classList.add('active');
     document.body.style.overflow = 'hidden';
+    
+    // Accessibility: Move focus to lightbox
+    this.lightboxClose?.focus();
+    
+    // Announce to screen readers
+    this.announceToScreenReader(`Opened ${this.currentTitle}. Press Escape to close, Z to zoom, arrow keys to navigate.`);
   }
   
   closeLightbox() {
     this.lightbox.classList.remove('active');
     document.body.style.overflow = '';
+    this.isZoomed = false;
+    this.lightboxImage?.classList.remove('zoomed');
+  }
+  
+  toggleZoom() {
+    this.isZoomed = !this.isZoomed;
+    
+    if (this.isZoomed) {
+      this.lightboxImage.classList.add('zoomed');
+      this.lightboxImage.style.cursor = 'zoom-out';
+      this.announceToScreenReader('Image zoomed to actual size. Click again to zoom out.');
+    } else {
+      this.lightboxImage.classList.remove('zoomed');
+      this.lightboxImage.style.cursor = 'zoom-in';
+      this.announceToScreenReader('Image zoomed to fit screen.');
+    }
   }
   
   updateLightbox(hasGalleryLink = false) {
     const imageSrc = this.currentGallery[this.currentIndex];
     
-    // Update image with lazy loading
+    // Update image
     this.lightboxImage.src = imageSrc;
+    this.lightboxImage.style.cursor = 'zoom-in';
+    this.lightboxImage.classList.remove('zoomed');
+    this.isZoomed = false;
     
     // Update info
     if (this.lightboxTitle) {
@@ -119,8 +150,10 @@ class PortfolioLightbox {
     if (this.lightboxCounter) {
       if (this.isPhotography || this.currentGallery.length <= 1) {
         this.lightboxCounter.textContent = '';
+        this.lightboxCounter.setAttribute('aria-live', 'off');
       } else {
         this.lightboxCounter.textContent = `${this.currentIndex + 1} / ${this.currentGallery.length}`;
+        this.lightboxCounter.setAttribute('aria-live', 'polite');
       }
     }
     
@@ -129,7 +162,7 @@ class PortfolioLightbox {
       this.galleryButton.style.display = (this.isPhotography && hasGalleryLink) ? 'inline-block' : 'none';
     }
     
-    // Show/hide arrows for single-image photography projects
+    // Show/hide arrows
     if (this.isPhotography || this.currentGallery.length <= 1) {
       this.lightboxPrev.style.display = 'none';
       this.lightboxNext.style.display = 'none';
@@ -144,6 +177,7 @@ class PortfolioLightbox {
     
     this.currentIndex = (this.currentIndex + 1) % this.currentGallery.length;
     this.updateLightbox();
+    this.announceToScreenReader(`Image ${this.currentIndex + 1} of ${this.currentGallery.length}`);
   }
   
   prevImage() {
@@ -151,6 +185,18 @@ class PortfolioLightbox {
     
     this.currentIndex = (this.currentIndex - 1 + this.currentGallery.length) % this.currentGallery.length;
     this.updateLightbox();
+    this.announceToScreenReader(`Image ${this.currentIndex + 1} of ${this.currentGallery.length}`);
+  }
+  
+  announceToScreenReader(message) {
+    const announcement = document.createElement('div');
+    announcement.setAttribute('aria-live', 'polite');
+    announcement.setAttribute('aria-atomic', 'true');
+    announcement.className = 'sr-only';
+    announcement.textContent = message;
+    document.body.appendChild(announcement);
+    
+    setTimeout(() => announcement.remove(), 1000);
   }
 }
 
