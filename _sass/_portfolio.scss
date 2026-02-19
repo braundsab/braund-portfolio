@@ -69,13 +69,13 @@
 }
 
 .portfolio-image {
-  object-position: left center;
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: left center;
   transition: transform 0.5s ease;
   
   .portfolio-item:hover & {
