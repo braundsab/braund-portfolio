@@ -14,7 +14,6 @@
     justify-content: center;
   }
   
-  // Fullscreen zoom mode
   &.fullscreen-zoom {
     overflow: auto;
     align-items: flex-start;
@@ -36,7 +35,6 @@
     }
   }
   
-  // Hide controls on mouse idle when zoomed
   &.hide-controls {
     .lightbox-controls,
     .lightbox-info,
@@ -86,7 +84,6 @@
   }
 }
 
-// Controls below image - overlaid when zoomed
 .lightbox-controls {
   display: flex;
   align-items: center;
@@ -225,7 +222,6 @@
   }
 }
 
-// Gallery page fullscreen lightbox
 .gallery-lightbox {
   &.gallery-fullscreen-zoom {
     overflow: auto;
@@ -285,7 +281,6 @@
   }
 }
 
-// Gallery page grid
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -318,7 +313,6 @@
   }
 }
 
-// Screen reader only text
 .sr-only {
   position: absolute;
   width: 1px;
